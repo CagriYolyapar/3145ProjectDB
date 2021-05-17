@@ -12,7 +12,7 @@ namespace Project.MAP.Options
     {
         public BaseMap()
         {
-
+             
         }
     }
 }
