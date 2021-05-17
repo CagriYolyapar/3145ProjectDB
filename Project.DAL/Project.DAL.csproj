@@ -64,6 +64,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Project.COMMON\Project.COMMON.csproj">
+      <Project>{0a04201f-2e3e-4cd9-bb11-43ca67a964b9}</Project>
+      <Name>Project.COMMON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Project.ENTITIES\Project.ENTITIES.csproj">
       <Project>{8f6f85db-a2bc-46f8-8d41-960ee0a6bab5}</Project>
       <Name>Project.ENTITIES</Name>
