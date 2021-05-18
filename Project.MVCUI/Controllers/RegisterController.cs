@@ -60,9 +60,29 @@ namespace Project.MVCUI.Controllers
                 _proRep.Add(profile);
             }
 
-            //Todo:Activation, Register Ok ve Register Template işlemleri
+            
 
             return View("RegisterOk");
+        }
+
+
+        public ActionResult Activation(Guid id)
+        {
+            AppUser aktifEdilecek = _apRep.FirstOrDefault(x => x.ActivationCode == id);
+            if (aktifEdilecek!=null)
+            {
+                aktifEdilecek.Active = true;
+                _apRep.Update(aktifEdilecek);
+                TempData["HesapAktifMi"] = "Hesabınız aktif hale getirildi";
+                return RedirectToAction("Login", "Home");
+            }
+            TempData["HesapAktifMi"] = "Hesabınız bulunamadı";
+            return RedirectToAction("Login","Home");
+        }
+
+        public ActionResult RegisterOk()
+        {
+            return View();
         }
     }
 }
