@@ -2,7 +2,7 @@
 
 namespace Project.MVCUI.Areas.Admin
 {
-    //Todo:Admin Area acıldı..Authentication işlemlerinden devam edilecek...
+   
     public class AdminAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
