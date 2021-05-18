@@ -22,7 +22,7 @@ namespace Project.DAL.StrategyPattern
             AppUser au = new AppUser();
             au.UserName = "cgr";
             au.Password = DantexCrypt.Crypt("123");
-            au.Email = "nigtwhisper137@gmail.com";
+            au.Email = "cagri.yolyapar@gmail.com";
             au.Role = ENTITIES.Enums.UserRole.Admin;
             context.AppUsers.Add(au);
             context.SaveChanges();

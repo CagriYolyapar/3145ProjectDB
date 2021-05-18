@@ -1766,6 +1766,7 @@
     <Content Include="Web.config" />
     <Content Include="Views\Register\RegisterNow.cshtml" />
     <Content Include="Views\Register\RegisterOk.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -1980,7 +1981,6 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="OuterTools\assets\jquery-file-upload\server\php\files\thumbnail\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Project.BLL\Project.BLL.csproj">
