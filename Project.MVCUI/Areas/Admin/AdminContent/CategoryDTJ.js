@@ -1,8 +1,8 @@
 ﻿function fnFormatDetails(oTable, nTr) {
     var aData = oTable.fnGetData(nTr);
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-    sOut += '<tr><td>ID/Ürünler:</td><td> <a title="İçerik" href="/Admin/Product/ProductList/' + aData[1] + '">' + aData[2] + ' </a>  </td></tr>';
-    sOut += '<tr><td>Detay Linki:</td><td><a title="Detay" href="/Admin/Category/CategoryDetail/' + aData[1] + '">' + aData[2] + ' detay </a></td></tr>';
+    sOut += '<tr><td>Ürünleri:</td><td> <a title="İçerik" href="/Admin/Product/ProductList/' + aData[1] + '">' + aData[2] + ' </a>  </td></tr>';
+    sOut += '<tr><td>Detay Linki:</td><td><a title="Detay" href="/Admin/Category/CategoryList/' + aData[1] + '">' + aData[2] + ' detay </a></td></tr>';
     sOut += '<tr><td>Kategori Ekleme:</td><td> <a href="/Admin/Category/AddCategory" class="btn btn-primary"> Kategori Ekle </a>  </td></tr>';
     sOut += '</table>';
 
