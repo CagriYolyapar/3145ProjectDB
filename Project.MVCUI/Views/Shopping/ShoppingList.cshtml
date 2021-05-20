@@ -31,7 +31,13 @@
 
                        @if (TempData["catID"]!=null)
                        {
-                           <li>@Html.PagedListPager</li>
+                           <li>@Html.PagedListPager(Model.PagedProducts,page=> Url.Action("ShoppingList",new { page,categoryID=TempData["catID"]}))</li>
+                       }
+                       else
+                       {
+                           <li>
+                               @Html.PagedListPager(Model.PagedProducts,page=> Url.Action("ShoppingList",new { page}))
+                           </li>
                        }
                     </ul>
                 </div>
@@ -39,26 +45,54 @@
         </section>
 
         <div class="row product-list">
+      
+
+            @foreach (Product item in Model.PagedProducts)
+            {
             <div class="col-md-4">
                 <section class="panel">
                     <div class="pro-img-box">
-                        <img src="~/OuterTools/img/product-list/pro-1.jpg" alt="" />
-                        <a href="#" class="adtocart">
+                        @if (item.ImagePath == null || item.ImagePath.Contains("nightlife"))
+                        {
+                            <img src="~/Pictures/eddcb856-d30f-4f55-9300-0583f597491e.jpg" alt="Resim yok" width="100" height="300" title="@item.ProductName" />
+                        }
+                        else
+                        {
+                            <img src="@item.ImagePath" alt="Resim yok" width="100" height="300" title="@item.ProductName" />
+                        }
+
+                        @*Url.Action'in bize verdiği fayda, belli durumlarda ActionLink kullanmak tasarımımıza uygun olmadıgı zamanlarda ortaya cıkar*@
+                        @*@Html.ActionLink("Sepete at","AddToCart", new { id=item.ID})*@
+
+                        <a href="@Url.Action("AddToCart",new { id=item.ID})" class="adtocart">
                             <i class="icon-shopping-cart"></i>
                         </a>
                     </div>
 
                     <div class="panel-body text-center">
                         <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
+                            <a href="#" class="pro-title" title="@item.ProductName">
+                               @item.ProductName.Substring(0,6)
                             </a>
                         </h4>
-                        <p class="price">$300.00</p>
+                        <p class="price">$@item.UnitPrice</p>
                     </div>
                 </section>
             </div>
+            }
+
+            
            
         </div>
     </div>
 </div>
+
+
+@section Sepet{
+
+    <li><a href="@Url.Action("CartPage","Shopping")">  
+         <i class="icon-shopping-cart"></i> Cart
+        
+        </a></li>
+
+    }
