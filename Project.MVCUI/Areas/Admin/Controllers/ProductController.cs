@@ -77,7 +77,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         }
 
 
-        //todo resim Update ödevi
+       
         [HttpPost]
         public ActionResult UpdateProduct(Product product)
         {

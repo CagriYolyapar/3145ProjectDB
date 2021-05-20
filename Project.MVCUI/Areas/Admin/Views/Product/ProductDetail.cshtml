@@ -1,0 +1,60 @@
+﻿@model ProductVM
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-body">
+    <div class="adv-table">
+        <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+            <thead>
+                <tr>
+                    <th>Ürün ID</th>
+                    <th>Urun Ismi</th>
+                    <th>Ürün Fiyatı</th>
+                    <th>Ürün Stok</th>
+                    <th>Ürün Kategorisi</th>
+                    <th>Ürün Resmi</th>
+                    <th class="hidden-phone">Durum</th>
+                    <th class="hidden-phone">Sil</th>
+                    <th class="hidden-phone">Güncelle</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                
+                    <tr class="gradeX">
+                        <td>@Model.Product.ID</td>
+                        <td>@Model.Product.ProductName</td>
+                        <td>
+                            @Model.Product.UnitPrice
+                        </td>
+                        <td class="hidden-phone">@Model.Product.UnitsInStock</td>
+
+                        @if (Model.Product.Category == null)
+                        {
+                            <td>Kategorisi belirtilmemiş</td>
+                        }
+                        else
+                        {
+                            <td>@Model.Product.Category.CategoryName</td>
+                        }
+
+                        <td><img width="30" height="30" title="@Model.Product.ProductName" src="@Model.Product.ImagePath" />  </td>
+
+                        <td class="center hidden-phone">@Model.Product.Status</td>
+                        <td class="center hidden-phone">@Html.ActionLink("Sil", "DeleteProduct", new { id = Model.Product.ID }, new { @class = "btn btn-danger" })</td>
+                        <td class="center hidden-phone">@Html.ActionLink("Güncelle", "UpdateProduct", new { id = Model.Product.ID }, new { @class = "btn btn-warning" })</td>
+                    </tr>
+                
+
+
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
