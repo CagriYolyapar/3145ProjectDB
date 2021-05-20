@@ -25,7 +25,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             CategoryVM cvm = id == null ? new CategoryVM
             {
                 Categories = _cRep.GetActives()
-            } : new CategoryVM { Category = _cRep.Find(id.Value) };
+            } : new CategoryVM { Categories = _cRep.Where(x=>x.ID==id) };
             return View(cvm);
         }
 
