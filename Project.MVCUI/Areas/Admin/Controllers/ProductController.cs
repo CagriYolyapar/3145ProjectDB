@@ -22,7 +22,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         }
 
 
-
+        //Todo: ProductDTJ islemleri Product Crud templatei
 
 
         public ActionResult ProductDetail(int id)
