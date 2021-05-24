@@ -190,6 +190,11 @@ namespace Project.MVCUI.Controllers
 
 
                 }
+                else
+                {
+                    TempData["sorun"] = "Odeme ile ilgili bir sorun olustu.Lütfen bankanız ile iletişmi geçiniz";
+                    return RedirectToAction("ShoppingList");
+                }
             }
 
 
@@ -198,7 +203,7 @@ namespace Project.MVCUI.Controllers
             #endregion
 
 
-            return View();
+      
         }
     }
 }
