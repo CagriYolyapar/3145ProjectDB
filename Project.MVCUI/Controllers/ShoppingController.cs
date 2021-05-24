@@ -1,11 +1,14 @@
 ﻿using PagedList;
 using Project.BLL.DesignPatterns.GenericRepository.ConcRep;
+using Project.COMMON.Tools;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Models.ShoppingTools;
 using Project.MVCUI.VMClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -80,6 +83,122 @@ namespace Project.MVCUI.Controllers
             }
             TempData["sepetBos"] = "Sepetinizde ürün bulunmamaktadır";
             return RedirectToAction("ShoppingList");
+        }
+
+        public ActionResult DeleteFromCart(int id)
+        {
+            if (Session["scart"] != null)
+            {
+                Cart c = Session["scart"] as Cart;
+                c.SepettenSil(id);
+                if (c.Sepetim.Count == 0)
+                {
+                    Session.Remove("scart");
+                    TempData["sepetBos"] = "Sepetinizde ürün bulunmamaktadır";
+                    return RedirectToAction("ShoppingList");
+                }
+                return RedirectToAction("CartPage");
+            }
+            return RedirectToAction("ShoppingList");
+        }
+
+
+        
+
+        public ActionResult SiparisiOnayla()
+        {
+            AppUser mevcutKullanici;
+            if (Session["member"] != null)
+            {
+                mevcutKullanici = Session["member"] as AppUser;
+            }
+            else TempData["anonim"] = "Kullanıcı üye degil";
+            return View();
+        }
+
+
+        //https://localhost:44370/api/Payment/ReceivePayment
+        [HttpPost]
+        public ActionResult SiparisiOnayla(OrderVM ovm)
+        {
+            bool result;
+            Cart sepet = Session["scart"] as Cart;
+
+            ovm.Order.TotalPrice = ovm.PaymentDTO.ShoppingPrice = sepet.TotalPrice;
+
+            #region APISection
+
+
+            using(HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44370/api/");
+
+                Task<HttpResponseMessage> postTask = client.PostAsJsonAsync("Payment/ReceivePayment", ovm.PaymentDTO);
+
+                HttpResponseMessage sonuc;
+
+                try
+                {
+                    sonuc = postTask.Result;
+                }
+                catch (Exception ex)
+                {
+
+                    TempData["baglantiRed"] = "Banka baglantıyı reddetti";
+                    return RedirectToAction("ShoppingList");
+                }
+
+                if (sonuc.IsSuccessStatusCode)
+                {
+                    result = true;
+                }
+                else result = false;
+
+                if (result)
+                {
+                    if (Session["member"] !=null)
+                    {
+                        AppUser kullanici = Session["member"] as AppUser;
+                        ovm.Order.AppUserID = kullanici.ID;
+                        ovm.Order.UserName = kullanici.UserName;
+                    }
+                    else
+                    {
+                        ovm.Order.AppUserID = null;
+                        ovm.Order.UserName = TempData["anonim"].ToString();
+                    }
+
+                    _oRep.Add(ovm.Order); //OrderRepository bu noktada Order'i eklerken onun ID'sini olusturuyor...
+
+                    foreach (CartItem item in sepet.Sepetim)
+                    {
+                        OrderDetail od = new OrderDetail();
+                        od.OrderID = ovm.Order.ID;
+                        od.ProductID = item.ID;
+                        od.TotalPrice = item.SubTotal;
+                        od.Quantity = item.Amount;
+                        _odRep.Add(od);
+
+                        //Stoktan düsmesini istiyorsanız
+                        Product stokDus = _pRep.Find(item.ID);
+                        stokDus.UnitsInStock -= item.Amount;
+                        _pRep.Update(stokDus);
+                    }
+                    TempData["odeme"] = "Siparisiniz bize ulasmıstır..Tesekkür ederiz";
+                    MailService.Send(ovm.Order.Email, body: $"Siparişiniz basarıyla alındı...{ovm.Order.TotalPrice}");
+                    return RedirectToAction("ShoppingList");
+
+
+                }
+            }
+
+
+
+
+            #endregion
+
+
+            return View();
         }
     }
 }

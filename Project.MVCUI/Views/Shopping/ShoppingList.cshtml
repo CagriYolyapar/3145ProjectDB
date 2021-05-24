@@ -5,17 +5,24 @@
 }
 
 
+
+
+<h2 style="color:red">@TempData["sepetBos"]</h2>
+<h2 style="color:red">@TempData["baglantiRed"]</h2>
+<h2 style="color:red">@TempData["sorun"]</h2>
+
+
 <div class="row">
     <div class="col-md-3">
-      
+
         <section class="panel">
-          
+
             <div class="panel-body">
-                 <h2 style="color:#296189">Kategoriler</h2>
+                <h2 style="color:#296189">Kategoriler</h2>
                 <ul>
                     @foreach (Category item in Model.Categories)
                     {
-                        <li style="padding-top:3px">@Html.ActionLink(item.CategoryName,"ShoppingList",new { categoryID = item.ID},new { @class="btn btn-primary"})</li>
+                        <li style="padding-top:3px">@Html.ActionLink(item.CategoryName, "ShoppingList", new { categoryID = item.ID }, new { @class = "btn btn-primary" })</li>
                     }
                 </ul>
             </div>
@@ -24,65 +31,65 @@
     <div class="col-md-9">
         <section class="panel">
             <div class="panel-body">
-              
+
 
                 <div class="pull-right">
                     <ul class="pagination pagination-sm pro-page-list">
 
-                       @if (TempData["catID"]!=null)
-                       {
-                           <li>@Html.PagedListPager(Model.PagedProducts,page=> Url.Action("ShoppingList",new { page,categoryID=TempData["catID"]}))</li>
-                       }
-                       else
-                       {
-                           <li>
-                               @Html.PagedListPager(Model.PagedProducts,page=> Url.Action("ShoppingList",new { page}))
-                           </li>
-                       }
+                        @if (TempData["catID"] != null)
+                        {
+                            <li>@Html.PagedListPager(Model.PagedProducts, page => Url.Action("ShoppingList", new { page, categoryID = TempData["catID"] }))</li>
+                        }
+                        else
+                        {
+                            <li>
+                                @Html.PagedListPager(Model.PagedProducts, page => Url.Action("ShoppingList", new { page }))
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </section>
 
         <div class="row product-list">
-      
+
 
             @foreach (Product item in Model.PagedProducts)
             {
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        @if (item.ImagePath == null || item.ImagePath.Contains("nightlife"))
-                        {
-                            <img src="~/Pictures/eddcb856-d30f-4f55-9300-0583f597491e.jpg" alt="Resim yok" width="100" height="300" title="@item.ProductName" />
-                        }
-                        else
-                        {
-                            <img src="@item.ImagePath" alt="Resim yok" width="100" height="300" title="@item.ProductName" />
-                        }
+                <div class="col-md-4">
+                    <section class="panel">
+                        <div class="pro-img-box">
+                            @if (item.ImagePath == null || item.ImagePath.Contains("nightlife"))
+                            {
+                                <img src="~/Pictures/eddcb856-d30f-4f55-9300-0583f597491e.jpg" alt="Resim yok" width="100" height="300" title="@item.ProductName" />
+                            }
+                            else
+                            {
+                                <img src="@item.ImagePath" alt="Resim yok" width="100" height="300" title="@item.ProductName" />
+                            }
 
-                        @*Url.Action'in bize verdiği fayda, belli durumlarda ActionLink kullanmak tasarımımıza uygun olmadıgı zamanlarda ortaya cıkar*@
-                        @*@Html.ActionLink("Sepete at","AddToCart", new { id=item.ID})*@
+                            @*Url.Action'in bize verdiği fayda, belli durumlarda ActionLink kullanmak tasarımımıza uygun olmadıgı zamanlarda ortaya cıkar*@
+                            @*@Html.ActionLink("Sepete at","AddToCart", new { id=item.ID})*@
 
-                        <a href="@Url.Action("AddToCart",new { id=item.ID})" class="adtocart">
-                            <i class="icon-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title" title="@item.ProductName">
-                               @item.ProductName.Substring(0,6)
+                            <a href="@Url.Action("AddToCart",new { id=item.ID})" class="adtocart">
+                                <i class="icon-shopping-cart"></i>
                             </a>
-                        </h4>
-                        <p class="price">$@item.UnitPrice</p>
-                    </div>
-                </section>
-            </div>
+                        </div>
+
+                        <div class="panel-body text-center">
+                            <h4>
+                                <a href="#" class="pro-title" title="@item.ProductName">
+                                    @item.ProductName.Substring(0, 6)
+                                </a>
+                            </h4>
+                            <p class="price">$@item.UnitPrice</p>
+                        </div>
+                    </section>
+                </div>
             }
 
-            
-           
+
+
         </div>
     </div>
 </div>
@@ -90,9 +97,11 @@
 
 @section Sepet{
 
-    <li><a href="@Url.Action("CartPage","Shopping")">  
-         <i class="icon-shopping-cart"></i> Cart
-        
-        </a></li>
+    <li>
+        <a href="@Url.Action("CartPage","Shopping")">
+            <i class="icon-shopping-cart"></i> Cart
 
-    }
+        </a>
+    </li>
+
+}
